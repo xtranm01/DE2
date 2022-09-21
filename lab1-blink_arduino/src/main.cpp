@@ -1,3 +1,4 @@
+
 /***********************************************************************
  * 
  * Blink a LED in Arduino-style and use function from the delay library.
@@ -13,7 +14,9 @@
 /* Defines -----------------------------------------------------------*/
 #define LED_GREEN PB5   // PB5 is AVR pin where green on-board LED 
                         // is connected
-#define SHORT_DELAY 250 // Delay in milliseconds
+#define DOT 200 // Delay in milliseconds
+#define DASH DOT*2
+#define SPACE DOT*7
 #ifndef F_CPU
 # define F_CPU 16000000 // CPU frequency in Hz required for delay funcs
 #endif
@@ -27,7 +30,7 @@
 // This part is needed to use Arduino functions but also physical pin
 // names. We are using Arduino-style just to simplify the first lab.
 #include "Arduino.h"
-#define PB5 13          // In Arduino world, PB5 is called "13"
+#define PB5 13 
 // -----
 
 
@@ -38,25 +41,24 @@
  * Returns:  none
  **********************************************************************/
 int main(void)
-{
-    uint8_t led_value = LOW;  // Local variable to keep LED status
+{ 
+    pinMode(LED_GREEN, OUTPUT);
+    digitalWrite(LED_GREEN, LOW);
 
     // Set pin where on-board LED is connected as output
-    pinMode(LED_GREEN, OUTPUT);
+    
 
     // Infinite loop
     while (1)
     {
-        // Change LED value
-        if (led_value == LOW)
-            led_value = HIGH;
-        else
-            led_value = LOW;
-
-        // Pause several milliseconds
-        _delay_ms(SHORT_DELAY);
-        // Turn ON/OFF on-board LED
-        digitalWrite(LED_GREEN, led_value);
+      digitalWrite(LED_GREEN, HIGH);
+      _delay_ms(DOT);
+      digitalWrite(LED_GREEN, LOW);
+      _delay_ms(DOT);
+      digitalWrite(LED_GREEN, HIGH);
+      _delay_ms(DASH);
+      digitalWrite(LED_GREEN, LOW);
+      _delay_ms(SPACE);
     }
 
     // Will never reach this
