@@ -8,7 +8,7 @@
 int main(void)
 { 
     pinMode(LED_GREEN, OUTPUT);
-    digitalWrite(LED_GREEN, LOW);
+    digitalWrite(LED_RED, LOW);
 
     // Set pin where on-board LED is connected as output
     
@@ -16,13 +16,13 @@ int main(void)
     // Infinite loop
     while (1)
     {
-      digitalWrite(LED_GREEN, HIGH);
+      digitalWrite(LED_RED, HIGH);
       _delay_ms(DOT);
-      digitalWrite(LED_GREEN, LOW);
+      digitalWrite(LED_RED, LOW);
       _delay_ms(DOT);
-      digitalWrite(LED_GREEN, HIGH);
+      digitalWrite(LED_RED, HIGH);
       _delay_ms(DASH);
-      digitalWrite(LED_GREEN, LOW);
+      digitalWrite(LED_RED, LOW);
       _delay_ms(SPACE);
     }
 
