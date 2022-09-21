@@ -6,17 +6,24 @@
 
 ```c
 int main(void)
-{
-    // Set pin where on-board LED is connected as output
+{ 
     pinMode(LED_GREEN, OUTPUT);
+    digitalWrite(LED_GREEN, LOW);
+
+    // Set pin where on-board LED is connected as output
+    
 
     // Infinite loop
     while (1)
     {
-        // Generate a lettre `A` Morse code
-
-        // WRITE YOUR CODE HERE
-
+      digitalWrite(LED_GREEN, HIGH);
+      _delay_ms(DOT);
+      digitalWrite(LED_GREEN, LOW);
+      _delay_ms(DOT);
+      digitalWrite(LED_GREEN, HIGH);
+      _delay_ms(DASH);
+      digitalWrite(LED_GREEN, LOW);
+      _delay_ms(SPACE);
     }
 
     // Will never reach this
