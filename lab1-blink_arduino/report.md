@@ -16,13 +16,13 @@ int main(void)
     while (1)
     {
       digitalWrite(LED_RED, HIGH);
-      _delay_ms(DOT);
+      _delay_ms(DOT); // 100ms
       digitalWrite(LED_RED, LOW);
-      _delay_ms(DOT);
+      _delay_ms(DOT); // 100ms gap between dot and dash is same as dot
       digitalWrite(LED_RED, HIGH);
-      _delay_ms(DASH);
+      _delay_ms(DASH); // 300ms
       digitalWrite(LED_RED, LOW);
-      _delay_ms(SPACE);
+      _delay_ms(SPACE); // 700ms
     }
 
     // Will never reach this
