@@ -44,7 +44,7 @@
 int main(void)
 {
     // Initialize display
-    lcd_init(LCD_DISP_ON_CURSOR_BLINK);
+    lcd_init(LCD_DISP_ON);
 
     // Put string(s) on LCD screen
     //lcd_gotoxy(6, 1);
@@ -57,6 +57,71 @@ int main(void)
 
     // Enables interrupts by setting the global interrupt mask
     sei();
+    uint8_t customChar[40] = {
+        0b11111,
+	      0b11111,
+	      0b11111,
+	      0b11111,
+	      0b11111,
+	      0b11111,
+	      0b11111,
+	      0b11111,
+
+        0b11110,
+	      0b11110,
+	      0b11110,
+	      0b11110,
+	      0b11110,
+	      0b11110,
+	      0b11110,
+	      0b11110,
+
+        0b11100,
+	      0b11100,
+	      0b11100,
+	      0b11100,
+	      0b11100,
+	      0b11100,
+	      0b11100,
+	      0b11100,
+
+        0b11000,
+	      0b11000,
+	      0b11000,
+	      0b11000,
+	      0b11000,
+	      0b11000,
+	      0b11000,
+	      0b11000,
+
+        0b10000,
+	      0b10000,
+	      0b10000,
+	      0b10000,
+	      0b10000,
+	      0b10000,
+	      0b10000,
+	      0b10000,
+    };
+
+    // Initialize display
+    //lcd_init(LCD_DISP_ON);
+
+    lcd_command(1<<LCD_CGRAM);       // Set addressing to CGRAM (Character Generator RAM)
+                                     // ie to individual lines of character patterns
+    for (uint8_t i = 0; i < 40; i++)  // Copy new character patterns line by line to CGRAM
+        lcd_data(customChar[i]);
+    lcd_command(1<<LCD_DDRAM);       // Set addressing back to DDRAM (Display Data RAM)
+                                     // ie to character codes
+
+    // Display symbol with Character code 0
+    lcd_gotoxy(0, 1);
+    lcd_putc(0x00);
+    lcd_putc(0x01);
+    lcd_putc(0x02);
+    lcd_putc(0x03);
+    lcd_putc(0x04);
+
 
     // Infinite loop
     while (1)
@@ -82,6 +147,8 @@ ISR(TIMER2_OVF_vect)
     static uint8_t tenths = 0;  // Tenths of a second
     static uint8_t sec = 0;
     static uint8_t min = 0;
+    static uint8_t bar = 0;
+     static uint8_t pos = 0;
     char string[2];             // String for converted numbers by itoa()
 
     no_of_overflows++;
@@ -90,6 +157,7 @@ ISR(TIMER2_OVF_vect)
         // Do this every 6 x 16 ms = 100 ms
         no_of_overflows = 0;
         tenths++;
+        bar++;
         // Count tenth of seconds 0, 1, ..., 9, 0, 1, ...
         if (tenths == 10)
         {
@@ -117,7 +185,7 @@ ISR(TIMER2_OVF_vect)
         // Display "00:00.tenths"
         
         lcd_gotoxy(3, 0);
-        if (sec < 9)
+        if (sec < 10)
         {
           lcd_gotoxy(3, 0);
           lcd_putc('0');
@@ -128,7 +196,7 @@ ISR(TIMER2_OVF_vect)
         itoa(min, string, 10);  // Convert decimal value to string
         // Display "00:00.tenths"
         lcd_gotoxy(0, 0);
-        if (min < 9)
+        if (min < 10)
         {
           lcd_gotoxy(0, 0);
           lcd_putc('0');
@@ -137,6 +205,36 @@ ISR(TIMER2_OVF_vect)
 
         lcd_puts(string);
         lcd_gotoxy(0, 1);
+      switch (bar)
+      {
+      case 1:
+        lcd_gotoxy(pos, 1);
+        lcd_putc(0x04);
+        break;
+      case 2:
+        lcd_gotoxy(pos, 1);
+        lcd_putc(0x03);
+        break;
+      case 3:
+        lcd_gotoxy(pos, 1);
+        lcd_putc(0x02);
+        break;
+      case 4:
+        lcd_gotoxy(pos, 1);
+        lcd_putc(0x01);
+        break;
+      case 5:
+        lcd_gotoxy(pos, 1);
+        lcd_putc(0x00);
+        break;
+      default:
+        bar = 0;
+        pos++;
+        
+        break;
+      }
+  
     }
     // Else do nothing and exit the ISR
+
 }
