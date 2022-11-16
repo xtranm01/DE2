@@ -148,7 +148,7 @@ A maximum-length LFSR produces an m-sequence i.e. it cycles through all possible
 
    | **Tap position** | **Generated values** | **Length** |
    | :-: | :-- | :-: |
-   | 4, 3 |  |  |
+   | 4, 3 |  | 15 |
    | 4, 2 |  |  |
    | 4, 1 |  |  |
 
