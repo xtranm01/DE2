@@ -1,0 +1,49 @@
+\hypertarget{md_report_autotoc_md20}{}\doxysubsection{Instruction set}\label{md_report_autotoc_md20}
+
+\begin{DoxyEnumerate}
+\item Complete the conversion table with selected instructions\+:
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Binary opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Hex opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Compiler Hex opcode}}    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Binary opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Hex opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Compiler Hex opcode}}    }\\\cline{1-4}
+\endhead
+{\ttfamily add r24, r0}   &\PBS\centering &\PBS\centering &\PBS\centering \\\cline{1-4}
+{\ttfamily com r26}   &\PBS\centering &\PBS\centering &\PBS\centering \\\cline{1-4}
+{\ttfamily eor r26, r27}   &\PBS\centering &\PBS\centering &\PBS\centering \\\cline{1-4}
+{\ttfamily mul r22, r20}   &\PBS\centering &\PBS\centering &\PBS\centering \\\cline{1-4}
+{\ttfamily ret}   &\PBS\centering {\ttfamily 1001\+\_\+0101\+\_\+0000\+\_\+1000}   &\PBS\centering {\ttfamily 95 08}   &\PBS\centering \\\cline{1-4}
+\end{longtabu}
+\hypertarget{md_report_autotoc_md21}{}\doxysubsection{4-\/bit LFSR}\label{md_report_autotoc_md21}
+
+\begin{DoxyEnumerate}
+\item Complete table with 4-\/bit LFSR values for different Tap positions\+:
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Tap position}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Generated values}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Tap position}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Generated values}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-3}
+\endhead
+\PBS\centering 4, 3   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 4, 2   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 4, 1   &&\PBS\centering \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_report_autotoc_md22}{}\doxysubsection{Variable number of short pulses}\label{md_report_autotoc_md22}
+
+\begin{DoxyEnumerate}
+\item Draw a flowchart of function {\ttfamily void burst\+\_\+c(uint8\+\_\+t number)} which generates a variable number of short pulses at output pin. Let the pulse width be the shortest one. The image can be drawn on a computer or by hand. Use clear descriptions of the individual steps of the algorithms.
+
+!\mbox{[}your figure\mbox{]}() 
+\end{DoxyEnumerate}

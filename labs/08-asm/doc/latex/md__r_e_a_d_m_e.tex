@@ -1,0 +1,328 @@
+\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{Learning objectives}\label{md__r_e_a_d_m_e_autotoc_md5}
+After completing this lab you will be able to\+:
+
+
+\begin{DoxyItemize}
+\item Use basic AVR instructions
+\item Convert AVR instruction to hexadecimal machine code
+\item Pass parameters from C code to assembly and vice versa
+\end{DoxyItemize}
+
+The purpose of the laboratory exercise is to understand the AVR instruction set and how the individual instructions are translated into machine code. The main goal is to learn to combine higher and lower programming language in one project.\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{Table of contents}\label{md__r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_preparation}{Pre-\/\+Lab preparation}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_part1}{Part 1\+: Synchronize repositories and create a new project}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_part2}{Part 2\+: Assembly language}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_part3}{Part 3\+: LFSR-\/based pseudo random generator}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_part4}{Part 4\+: Generate documentation from source code}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_experiments}{Experiments on your own}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_report}{Post-\/\+Lab report}}
+\item \mbox{\hyperlink{md__r_e_a_d_m_e_references}{References}}
+\end{DoxyItemize}
+
+\label{md__r_e_a_d_m_e_preparation}%
+\Hypertarget{md__r_e_a_d_m_e_preparation}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysection{Pre-\/\+Lab preparation}\label{md__r_e_a_d_m_e_autotoc_md7}
+
+\begin{DoxyEnumerate}
+\item Use {\bfseries{AVR® Instruction Set Manual}} from Microchip \href{https://onlinedocs.microchip.com/}{\texttt{ Online Technical Documentation}}, find the description of selected instructions, and complete the table.
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Operation}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Description}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Cycles}}    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Operation}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Description}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Cycles}}    }\\\cline{1-4}
+\endhead
+{\ttfamily add Rd, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily andi Rd, K}   &\PBS\centering Rd = Rd and K   &Logical AND between register Rd and 8-\/bit constant K   &\PBS\centering 1    \\\cline{1-4}
+{\ttfamily bld Rd, b}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily bst Rd, b}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily com Rd}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily eor Rd, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily mul Rd, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily pop Rd}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily push Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily ret}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily rol Rd}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily ror Rd}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+\end{longtabu}
+
+
+\label{md__r_e_a_d_m_e_part1}%
+\Hypertarget{md__r_e_a_d_m_e_part1}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysection{Part 1\+: Synchronize repositories and create a new project}\label{md__r_e_a_d_m_e_autotoc_md8}
+
+\begin{DoxyEnumerate}
+\item Run Git Bash (Windows) of Terminal (Linux), navigate to your working directory, and update local repository.
+\end{DoxyEnumerate}
+
+\begin{quote}
+{\bfseries{Help\+:}} Useful bash and git commands are {\ttfamily cd} -\/ Change working directory. {\ttfamily mkdir} -\/ Create directory. {\ttfamily ls} -\/ List information about files in the current directory. {\ttfamily pwd} -\/ Print the name of the current working directory. {\ttfamily git status} -\/ Get state of working directory and staging area. {\ttfamily git pull} -\/ Update local repository and working folder. \end{quote}
+
+\begin{DoxyEnumerate}
+\item Run Visual Studio Code and create a new Platform\+IO project {\ttfamily lab8-\/asm} for {\ttfamily Arduino Uno} board and change project location to your local repository folder {\ttfamily Documents/digital-\/electronics-\/2}.
+\item IMPORTANT\+: Rename {\ttfamily LAB8-\/\+ASM \texorpdfstring{$>$}{>} src \texorpdfstring{$>$}{>} main.\+cpp} file to {\ttfamily main.\+c}, ie change the extension to {\ttfamily .c}.
+\item Copy/paste \href{https://raw.githubusercontent.com/tomas-fryza/digital-electronics-2/master/labs/08-asm/report.md}{\texttt{ report template}} to your {\ttfamily LAB8-\/\+ASM \texorpdfstring{$>$}{>} test \texorpdfstring{$>$}{>} README} file. Rename this file to {\ttfamily README.\+md}, ie add the extension {\ttfamily .md}.
+\end{DoxyEnumerate}
+
+\label{md__r_e_a_d_m_e_part2}%
+\Hypertarget{md__r_e_a_d_m_e_part2}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysection{Part 2\+: Assembly language}\label{md__r_e_a_d_m_e_autotoc_md9}
+Any program is just a series of instructions, that fetch and manipulate data. In most applications, this means reading the inputs, checking their status, switching on the outputs accordingly, or transferring data to another device, such as a display or serial line.
+
+A number of simple binary instructions are used to perform these basic tasks, and each has an equivalent assembly language instruction that people can understand. Using assembly language allows you to understand much more about how the micro controller works and how it is put together. It also produces very small and therefore fast code. The disadvantage is that you as a programmer have to do everything, including memory management and program structure, which can be very time consuming.
+
+To avoid this, higher-\/level languages are more often used to write programs for micro controllers, especially C but also Basic and Java. A high level means that each line of C (or other language) can be translated into one or many lines of assembly language.
+
+The compiler also deals with program structure and memory management, making writing code much easier. Commonly used routines, such as delays, can also be stored in libraries and easily reused. In addition, the C compiler makes it easier to work with numbers larger than one byte.
+
+For time-\/ or memory space-\/critical applications, it can often be desirable to combine C code (for easy maintenance) and assembly code (for maximal speed or minimal code size) together. To allow a program written in C to call a subroutine written in assembly language, you must be familiar with the register usage convention of the C compiler \href{https://people.ece.cornell.edu/land/courses/ece4760/FinalProjects/s2012/xg46_jy363/xg46_jy363/Reference/Mixing\%20C\%20and\%20assembly;\%20language\%20programs.pdf}{\texttt{ \mbox{[}2\mbox{]}}}.
+
+Parameters between C and assembly may be passed via registers and/or the Stack memory. Using the register way, parameters are passed via R25\+:R8 (18 regs, first function parameter is stored in R25\+:24, second in R23\+:22, etc.). If the parameters require more memory, then the Stack is used to pass additional parameters. Return value is placed in the same registers, ie. an 8-\/bit value gets returned in R24, an 16-\/bit value in two registers R25\+:24, an 32-\/bit value gets returned in four registers R25\+:22, and an 64-\/bit value gets returned in R25\+:18 \href{https://msoe.us/taylor/tutorial/ce2810/candasm}{\texttt{ \mbox{[}3\mbox{]}}}.
+
+
+\begin{DoxyEnumerate}
+\item Copy/paste \href{https://raw.githubusercontent.com/tomas-fryza/digital-electronics-2/master/labs/08-asm/main.c}{\texttt{ template code}} to {\ttfamily LAB8-\/\+ASM \texorpdfstring{$>$}{>} src \texorpdfstring{$>$}{>} main.\+c} source file.
+\item Use your favorite file manager and copy {\ttfamily timer} and {\ttfamily uart} libraries from the previous lab to the proper locations within the {\ttfamily LAB8-\/\+ASM} project.
+\item In Platform\+IO project, create two new files {\ttfamily lfsr.\+S} and {\ttfamily mac.\+S} within {\ttfamily LAB8-\/\+ASM \texorpdfstring{$>$}{>} src} source folder.
+\begin{DoxyEnumerate}
+\item Copy/paste assembly \href{https://raw.githubusercontent.com/tomas-fryza/digital-electronics-2/master/labs/08-asm/mac.S}{\texttt{ Multiply–and-\/\+Accumulate}} file to {\ttfamily mac.\+S}
+\item Copy/paste assembly \href{https://raw.githubusercontent.com/tomas-fryza/digital-electronics-2/master/labs/08-asm/lfsr.S}{\texttt{ LFSR}} generator to {\ttfamily lfsr.\+S}
+\end{DoxyEnumerate}
+
+The final project structure should look like this\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{├── include}
+\DoxyCodeLine{│   └── timer.h}
+\DoxyCodeLine{├── lib}
+\DoxyCodeLine{│   └── uart}
+\DoxyCodeLine{│       ├── uart.c}
+\DoxyCodeLine{│       └── uart.h}
+\DoxyCodeLine{└── src}
+\DoxyCodeLine{    ├── lfsr.S    \textcolor{comment}{// Assembly implementation of LFSR-\/based generator}}
+\DoxyCodeLine{    ├── mac.S     \textcolor{comment}{// Assembly example of Multiply-\/and-\/Accumulate}}
+\DoxyCodeLine{    └── main.c}
+
+\end{DoxyCode}
+
+\item Go through the {\ttfamily main.\+c} file and make sure you understand each line. Use {\bfseries{AVR® Instruction Set Manual}} from Microchip \href{https://onlinedocs.microchip.com/}{\texttt{ Online Technical Documentation}}, find the description of instructions used in {\ttfamily mac.\+S}, and complete the table.
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Operation}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Description}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Cycles}}    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Operation}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Description}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Cycles}}    }\\\cline{1-4}
+\endhead
+{\ttfamily add Rd, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily mul Rd, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily ret}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+\end{longtabu}
+
+
+
+\begin{DoxyEnumerate}
+\item Use manual\textquotesingle{}s 16-\/bit Opcodes and convert used instructions to hexadecimal.
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Binary opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Hex opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Compiler Hex opcode}}    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Binary opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Hex opcode}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Compiler Hex opcode}}    }\\\cline{1-4}
+\endhead
+{\ttfamily add r24, r0}   &\PBS\centering &\PBS\centering &\PBS\centering \\\cline{1-4}
+{\ttfamily mul r22, r20}   &\PBS\centering &\PBS\centering &\PBS\centering \\\cline{1-4}
+{\ttfamily ret}   &\PBS\centering {\ttfamily 1001\+\_\+0101\+\_\+0000\+\_\+1000}   &\PBS\centering {\ttfamily 95 08}   &\PBS\centering \\\cline{1-4}
+\end{longtabu}
+
+
+
+\begin{DoxyEnumerate}
+\item Build and upload the code to Arduino Uno board. Use {\bfseries{Platform\+IO\+: Serial Monitor}} to receive values from Arduino board.
+\item In Visual Studio Code select {\bfseries{Terminal \texorpdfstring{$>$}{>} New Terminal Ctrl+\+Shift+;}} and run the following command to generate the listing file\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\# Windows:}
+\DoxyCodeLine{C:\(\backslash\)Users\(\backslash\)YOUR-\/LOGIN\(\backslash\).platformio\(\backslash\)packages\(\backslash\)toolchain-\/atmelavr\(\backslash\)bin\(\backslash\)avr-\/objdump -\/S -\/d -\/m avr .pio/build/uno/firmware.elf > firmware.lst}
+\DoxyCodeLine{}
+\DoxyCodeLine{\# Linux:}
+\DoxyCodeLine{\string~/.platformio/packages/toolchain-\/atmelavr/bin/avr-\/objdump -\/S -\/d -\/m avr .pio/build/uno/firmware.elf > firmware.lst}
+
+\end{DoxyCode}
+
+
+From the project root folder, open the generated liting file {\ttfamily firmware.\+lst}. Compare your conversion from previous table with the compiler\textquotesingle{}s.
+\end{DoxyEnumerate}
+
+\begin{quote}
+{\bfseries{Note\+:}} By default, there is no highlighting mode for {\ttfamily $\ast$.lst} listing file. You can select the Language mode by clicking on the {\bfseries{Plain Text}} identifier in the lower right corner of VS Code. Select {\bfseries{Assembly}} mode, or if you have installed the {\ttfamily AVR Support} extension, choose {\bfseries{AVR Assembler}} mode. \end{quote}
+\label{md__r_e_a_d_m_e_part3}%
+\Hypertarget{md__r_e_a_d_m_e_part3}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysection{Part 3\+: LFSR-\/based pseudo random generator}\label{md__r_e_a_d_m_e_autotoc_md10}
+A linear-\/feedback shift register (LFSR) is a shift register whose input bit is a linear function of its previous state. The bit positions that affect the next state are called the taps. We can use this type of functions in many application such as counters, crypto, CRC generation, scrambling/descrambling algorithm, etc.
+
+There are two different (but equivalent) types of LFSR implementation the Fibonacci and the Galois. The LFSR can be implemented using XOR or XNOR primitive functions \href{https://surf-vhdl.com/how-to-implement-an-lfsr-in-vhdl/}{\texttt{ \mbox{[}4\mbox{]}}}.
+
+A maximum-\/length LFSR produces an m-\/sequence i.\+e. it cycles through all possible 2$^\wedge$\+N−1 states which look like pseudo-\/random values. If XOR gates are used, the illegal state is all zeros because this case will never change. A state with all ones is illegal when using an XNOR feedback, because the counter would remain locked-\/up in this state.
+
+
+\begin{DoxyEnumerate}
+\item Consider a 4-\/bit shift register whose input (LSB bit) is formed by an XNOR gate with taps \mbox{[}4, 3\mbox{]} and the initial value is 0000 \href{https://www.edn.com/tutorial-linear-feedback-shift-registers-lfsrs-part-1/}{\texttt{ \mbox{[}5\mbox{]}}}. Explore LFSR algorithm within {\ttfamily lfsr4\+\_\+fibonacci\+\_\+asm} assembly function, complete Timer1 overflow handler and generate 4-\/bit pseudo-\/random sequences for different Tap positions. How many states are generated for every settings?
+
+
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Tap position}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Generated values}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Tap position}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Generated values}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-3}
+\endhead
+\PBS\centering 4, 3   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 4, 2   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 4, 1   &&\PBS\centering \\\cline{1-3}
+\end{longtabu}
+
+
+
+\begin{DoxyEnumerate}
+\item Change \href{https://courses.cs.washington.edu/courses/cse369/15au/labs/xapp052_LFSRs.pdf}{\texttt{ LFSR tap positions}} in {\ttfamily lfsr4\+\_\+fibonacci\+\_\+asm} function and generate 5-\/, 6-\/, and 7-\/bit versions of pseudorandom sequence. Do not forget to change the binary mask used to clear unused bits in input/output register.
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Tap position}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Tap position}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-2}
+\endhead
+\PBS\centering ~   &\PBS\centering \\\cline{1-2}
+\PBS\centering ~   &\PBS\centering \\\cline{1-2}
+\PBS\centering ~   &\PBS\centering \\\cline{1-2}
+\end{longtabu}
+
+
+\label{md__r_e_a_d_m_e_part4}%
+\Hypertarget{md__r_e_a_d_m_e_part4}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysection{Part 4\+: Generate documentation from source code}\label{md__r_e_a_d_m_e_autotoc_md11}
+\href{https://www.doxygen.nl/}{\texttt{ Doxygen}} is a free, multiplatform (Linux, Windows, Mac, ...) tool for easy generation of program manuals. It supports popular programming languages such as C++, C, C\#, PHP, Java, Python, Fortran. Doxygen also supports the hardware description language VHDL. It can generate an on-\/line documentation browser (in HTML) and/or an off-\/line reference manual (in La\+TeX) from a set of documented source files. There is also support for generating output in RTF (MS-\/\+Word), Post\+Script, hyperlinked PDF, compressed HTML, and Unix man pages. The documentation is extracted directly from the sources, which makes it much easier to keep the documentation consistent with the source code.
+
+Doxygen uses several keywords that are inserted into your block comments. For C, these comments must begin with a triple character with two asterisks\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{/* }}
+\DoxyCodeLine{\textcolor{comment}{ * Classic C block comment; Doxygen will not search it}}
+\DoxyCodeLine{\textcolor{comment}{ */}}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyEnumerate}
+\item Open Doxywizard and set the basic settings as follows\+:
+\begin{DoxyEnumerate}
+\item Select working directory with your project {\ttfamily Documents\textbackslash{}digital-\/electronics-\/2\textbackslash{}lab8-\/asm}
+\item In {\bfseries{Wizard \texorpdfstring{$>$}{>} Project}} set {\bfseries{Project name}}
+\item In {\bfseries{Wizard \texorpdfstring{$>$}{>} Project}} check {\bfseries{Scan recursively}}
+\item In {\bfseries{Wizard \texorpdfstring{$>$}{>} Project}} select {\bfseries{Destination directory}} to new folder within your project {\ttfamily Documents\textbackslash{}digital-\/electronics-\/2\textbackslash{}lab8-\/asm\textbackslash{}doxygen}
+\item In {\bfseries{Wizard \texorpdfstring{$>$}{>} Mode}} select programming language to {\bfseries{Optimized for C or PHP output}}
+\item In {\bfseries{Wizard \texorpdfstring{$>$}{>} Output \texorpdfstring{$>$}{>} HTML}} unselect {\bfseries{With search function}}
+\item In {\bfseries{Wizard \texorpdfstring{$>$}{>} Output}} unselect La\+TeX and keep just HTML generation
+\item In {\bfseries{Run}} click to button {\bfseries{Run doxygen}} and then {\bfseries{Show HTML output}}
+
+
+\end{DoxyEnumerate}
+\end{DoxyEnumerate}
+
+\begin{quote}
+{\bfseries{Note\+:}} Complete guide on using Doxygen to document C source code is \href{https://embeddedinventor.com/guide-to-configure-doxygen-to-document-c-source-code-for-beginners/}{\texttt{ here}}. \end{quote}
+
+\begin{DoxyEnumerate}
+\item When you finish, always synchronize the contents of your working folder with the local and remote versions of your repository. This way you are sure that you will not lose any of your changes. To do that, use {\bfseries{Source Control (Ctrl+\+Shift+G)}} in Visual Studio Code or git commands.
+\end{DoxyEnumerate}
+
+\begin{quote}
+{\bfseries{Help\+:}} Useful git commands are {\ttfamily git status} -\/ Get state of working directory and staging area. {\ttfamily git add} -\/ Add new and modified files to the staging area. {\ttfamily git commit} -\/ Record changes to the local repository. {\ttfamily git push} -\/ Push changes to remote repository. {\ttfamily git pull} -\/ Update local repository and working folder. Note that, a brief description of useful git commands can be found \href{https://github.com/tomas-fryza/digital-electronics-1/wiki/Useful-Git-commands}{\texttt{ here}} and detailed description of all commands is \href{https://github.com/joshnh/Git-Commands}{\texttt{ here}}. \end{quote}
+\label{md__r_e_a_d_m_e_experiments}%
+\Hypertarget{md__r_e_a_d_m_e_experiments}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysection{Experiments on your own}\label{md__r_e_a_d_m_e_autotoc_md12}
+
+\begin{DoxyEnumerate}
+\item In {\ttfamily lfsr.\+S} file, program the assembly function {\ttfamily uint8\+\_\+t lfsr8\+\_\+fibonacci\+\_\+asm(uint8\+\_\+t value)}, which generates a 8-\/bit LFSR sequence with Tap positions 8, 6, 5, 4. What is the sequence length? What is the duration of the function in CPU cycles? Use eight LEDs and display each generated LFSR value. Simulate the application in Simul\+IDE.
+
+
+\item (Optional) In {\ttfamily main.\+c} file, program the C function {\ttfamily uint8\+\_\+t lfsr4\+\_\+fibonacci\+\_\+c(uint8\+\_\+t value)}, which generates a 4-\/bit LFSR sequence with a maximum length. In the {\ttfamily .lst} file compare both functions, in assembly and your C-\/realization. What is the duration of both functions in CPU cycles?
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Function}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Number of instructions}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Total number of CPU cycles}}    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Function}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Number of instructions}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Total number of CPU cycles}}    }\\\cline{1-3}
+\endhead
+{\ttfamily lfsr4\+\_\+fibonacci\+\_\+asm}   &\PBS\centering &\PBS\centering \\\cline{1-3}
+{\ttfamily lfsr4\+\_\+fibonacci\+\_\+c}   &\PBS\centering &\PBS\centering \\\cline{1-3}
+\end{longtabu}
+
+
+
+\begin{DoxyEnumerate}
+\item Program a 16-\/bit LFSR-\/based pseudo-\/random generator in assembly language and display values at UART. What LFSR taps provide the maximum length of generated sequence?
+\item In assembly, program a function {\ttfamily void burst\+\_\+asm(uint8\+\_\+t length)} to generate a variable number of short pulses at output pin. Let the pulse width be the shortest one. Write the same function {\ttfamily void burst\+\_\+c(uint8\+\_\+t length)} in C and compare duration of both functions. Use a logic analyzer, verify the pulse width and calculate the CPU frequency accordingly.
+\item In assembly, program your own delay function with one parameter that specifies the delay time in microseconds. Use a logic analyzer or oscilloscope to verify the correct function when generating pulses on the ATmega328P output pin. Use this function to generate the following acoustic tones\+: \href{https://pages.mtu.edu/~suits/notefreqs.html}{\texttt{ C2, D2, E2, F2, G2, and A2}}.
+\item In assembly, program an interrupt service routine for Timer/\+Counter1 overflow.
+\end{DoxyEnumerate}
+
+\label{md__r_e_a_d_m_e_report}%
+\Hypertarget{md__r_e_a_d_m_e_report}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysection{Post-\/\+Lab report}\label{md__r_e_a_d_m_e_autotoc_md13}
+{\itshape Complete all parts of {\ttfamily LAB8-\/\+ASM \texorpdfstring{$>$}{>} test \texorpdfstring{$>$}{>} README.\+md} file (see Part 1.\+4) in Czech, Slovak, or English, push it to your Git\+Hub repository, and submit a link to this file via \href{https://moodle.vutbr.cz/}{\texttt{ BUT e-\/learning}}. The deadline for submitting the task is the day before the next computer exercise.}
+
+{\itshape Vypracujte všechny části ze souboru {\ttfamily LAB8-\/\+ASM \texorpdfstring{$>$}{>} test \texorpdfstring{$>$}{>} README.\+md} (viz Část 1.\+4) v českém, slovenském, nebo anglickém jazyce, uložte je na váš Git\+Hub repozitář a odevzdejte link na tento soubor prostřednictvím \href{https://moodle.vutbr.cz/}{\texttt{ e-\/learningu VUT}}. Termín odevzdání úkolu je den před dalším počítačovým cvičením.}
+
+\label{md__r_e_a_d_m_e_references}%
+\Hypertarget{md__r_e_a_d_m_e_references}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md14}{}\doxysection{References}\label{md__r_e_a_d_m_e_autotoc_md14}
+
+\begin{DoxyEnumerate}
+\item Microchip Atmel. \href{https://onlinedocs.microchip.com/}{\texttt{ AVR® Instruction Set Manual}}
+\item William Barnekow. \href{https://people.ece.cornell.edu/land/courses/ece4760/FinalProjects/s2012/xg46_jy363/xg46_jy363/Reference/Mixing\%20C\%20and\%20assembly\%20language\%20programs.pdf}{\texttt{ Mixing C and assembly language programs}}
+\item Chris Taylor. \href{https://msoe.us/taylor/tutorial/ce2810/candasm}{\texttt{ Mixing C and Assembly}}
+\item Surf-\/\+VHDL. \href{https://surf-vhdl.com/how-to-implement-an-lfsr-in-vhdl/}{\texttt{ How to implement an LFSR in VHDL}}
+\item Clive Maxfield. \href{https://www.edn.com/tutorial-linear-feedback-shift-registers-lfsrs-part-1/}{\texttt{ Tutorial\+: Linear Feedback Shift Registers (LFSRs) – Part 1}}
+\item \href{https://doxygen.nl/}{\texttt{ Doxygen tool}}
+\item Embedded Inventor. \href{https://embeddedinventor.com/guide-to-configure-doxygen-to-document-c-source-code-for-beginners/}{\texttt{ Complete Guide On Using Doxygen To Document C Source Code..!!}}
+\item Tomas Fryza. \href{https://github.com/tomas-fryza/digital-electronics-2/wiki/Useful-Git-commands}{\texttt{ Useful Git commands}}
+\item B. H. Suits. \href{https://pages.mtu.edu/~suits/notefreqs.html}{\texttt{ Physics of Music -\/ Notes}} 
+\end{DoxyEnumerate}

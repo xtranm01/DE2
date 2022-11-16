@@ -1,0 +1,84 @@
+
+\begin{DoxyEnumerate}
+\item Create a new GCC C Executable Project for ATmega328P within {\ttfamily 09-\/asm} working folder and copy/paste \href{main.c}{\texttt{ template code}} to your {\ttfamily main.\+c} source file.
+\item In {\bfseries{Solution Explorer}} click on the project name, then in menu {\bfseries{Project}}, select {\bfseries{Add New Item... Ctrl+\+Shift+A}} and add a new Preprocessing Assembler File (.S) {\ttfamily lfsr.\+S}. Copy/paste \href{lfsr.S}{\texttt{ template code}} into it.
+\item In {\bfseries{Solution Explorer}} click on the project name, then in menu {\bfseries{Project}}, select {\bfseries{Add Existing Item... Shift+\+Alt+A}} and add\+:
+\begin{DoxyItemize}
+\item UART library files {\ttfamily \mbox{\hyperlink{uart_8h}{uart.\+h}}}, {\ttfamily uart.\+c} from the previous lab,
+\item Timer library {\ttfamily \mbox{\hyperlink{timer_8h}{timer.\+h}}} from the previous labs.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_old_autotoc_md16}{}\doxysubsection{Version\+: Command-\/line toolchain}\label{md__r_e_a_d_m_e_old_autotoc_md16}
+
+\begin{DoxyEnumerate}
+\item Copy {\ttfamily main.\+c} and {\ttfamily Makefile} files from previous lab to {\ttfamily Labs/09-\/asm} folder.
+\item Copy/paste \href{main.c}{\texttt{ template code}} to your {\ttfamily 09-\/asm/main.\+c} source file.
+\item Create a new source file {\ttfamily lfsr.\+S} and copy/paste \href{lfsr.S}{\texttt{ template code}} into it.
+\item Add the source file of UART library between the compiled files in {\ttfamily 09-\/asm/\+Makefile}.
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\# Add or comment libraries you are using in the project}
+\DoxyCodeLine{\#SRCS += \$(LIBRARY\_DIR)/lcd.c}
+\DoxyCodeLine{SRCS += \$(LIBRARY\_DIR)/uart.c}
+\DoxyCodeLine{\#SRCS += \$(LIBRARY\_DIR)/twi.c}
+\DoxyCodeLine{\#SRCS += \$(LIBRARY\_DIR)/gpio.c}
+\DoxyCodeLine{\#SRCS += \$(LIBRARY\_DIR)/segment.c}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_old_autotoc_md17}{}\doxysubsection{All versions}\label{md__r_e_a_d_m_e_old_autotoc_md17}
+
+\begin{DoxyEnumerate}
+\item Set Timer/\+Counter1 overflow, generate pseudo-\/random sequences, and transmit results via UART to Pu\+TTY SSH Client or Serial monitor. (In Simul\+IDE, also display sequences using LEDs.)
+
+
+\item Explore the LFSR algorithm within {\ttfamily rand4\+\_\+asm} function. Verify which feedback taps generate a maximum length LFSR sequence for 4-\/structure.
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Taps}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{4-\/bit LFSR sequence}}~~~~~~~~~~~~~~~~~~~~~~~   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Taps}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{4-\/bit LFSR sequence}}~~~~~~~~~~~~~~~~~~~~~~~   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Length}}    }\\\cline{1-3}
+\endhead
+\PBS\centering 1, 0   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 2, 0   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 3, 0   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 2, 1   &&\PBS\centering \\\cline{1-3}
+\PBS\centering 3, 1   &0, 1, 3, 6, c, 8   &\PBS\centering 6    \\\cline{1-3}
+\PBS\centering 3, 2   &&\PBS\centering \\\cline{1-3}
+\end{longtabu}
+
+
+
+\begin{DoxyEnumerate}
+\item See {\bfseries{Output Files}} in Solution Explorer in Atmel Studio or use {\ttfamily make list} command to generate listing file {\ttfamily .lss} by the compiler. In this file, check\+: (a) interrupt vectors (How many interrupt routines are used?), (b) body of {\ttfamily rand4\+\_\+asm} function. Is there any pseudo-\/instruction?
+\item Use AVR® Instruction Set Manual, convert one instruction from assembly to machine code, and verify your result with listing file.
+\item For each instruction from {\ttfamily rand4\+\_\+asm} function, determine the number of iterations and use the CPU cycles values to calculate the total duration of this function.
+\item In the {\ttfamily main.\+c} file, program the function {\ttfamily uint8\+\_\+t rand4\+\_\+c(uint8\+\_\+t value)} in C, which generates a 4-\/bit LFSR sequence with a maximum length. In the {\ttfamily .lss} file compare both functions, in assembly and your in C. What is the duration of both functions in CPU cycles?
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Function}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Number of instructions}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Total number of CPU cycles}}    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Function}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Number of instructions}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Total number of CPU cycles}}    }\\\cline{1-3}
+\endhead
+{\ttfamily rand4\+\_\+asm}   &\PBS\centering &\PBS\centering \\\cline{1-3}
+{\ttfamily rand4\+\_\+c}   &\PBS\centering &\PBS\centering \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md__r_e_a_d_m_e_old_autotoc_md18}{}\doxysection{Part 4\+: Sum of the products (\+So\+P)}\label{md__r_e_a_d_m_e_old_autotoc_md18}
+
+\begin{DoxyEnumerate}
+\item Create a new project {\ttfamily 09-\/asm\+\_\+sop} and copy needed files from previous project(s).
+\item In assembly, program the {\ttfamily uint8\+\_\+t sop\+\_\+asm($\ast$uint8\+\_\+t a, $\ast$uint8\+\_\+t b, uint8\+\_\+t length)} function to calculate the sum of the products of two integer vectors {\ttfamily a} and {\ttfamily b}, which have the same number of elements {\ttfamily length}. Transmit the SoP result via UART. For simplicity, consider only 8-\/bit sum and multiplication operations.
+\item Write the same function {\ttfamily uint8\+\_\+t sop\+\_\+c($\ast$uint8\+\_\+t a, $\ast$uint8\+\_\+t b, uint8\+\_\+t length)} in C language and compare the duration of both functions using the file {\ttfamily .lss}. 
+\end{DoxyEnumerate}

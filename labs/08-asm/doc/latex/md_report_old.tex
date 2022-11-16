@@ -1,0 +1,81 @@
+Link to this file in your Git\+Hub repository\+:
+
+\href{https://github.com/...}{\texttt{ https\+://github.\+com/your-\/github-\/account/repository-\/name/lab\+\_\+name}}\hypertarget{md_report_old_autotoc_md24}{}\doxysubsection{Instruction set}\label{md_report_old_autotoc_md24}
+
+\begin{DoxyEnumerate}
+\item Complete table with selected instructions\+:
+\end{DoxyEnumerate}
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Operation}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Description}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Cycles}}    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Instruction}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Operation}}   }&\cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Description}}   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ {\bfseries{Cycles}}    }\\\cline{1-4}
+\endhead
+{\ttfamily add Rd, Rr}   &\PBS\centering Rd = Rd + Rr   &Adds two registers without Carry flag   &\PBS\centering 1    \\\cline{1-4}
+{\ttfamily andi Rd, K}   &\PBS\centering Rd = Rd and K   &Logical AND between register Rd and 8-\/bit constant K   &\PBS\centering 1    \\\cline{1-4}
+{\ttfamily bld Rd, b}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily brne k}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily bst Rd, b}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily eor Rd, Re}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily ldi Rd, K}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily mov Rd, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily out A, Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily push Rr}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily rcall k}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily rjmp k}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily rol Rd}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily ror Rd}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily sbi A, b}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+{\ttfamily nop}   &\PBS\centering &&\PBS\centering \\\cline{1-4}
+\end{longtabu}
+\hypertarget{md_report_old_autotoc_md25}{}\doxysubsection{4-\/bit LFSR}\label{md_report_old_autotoc_md25}
+
+\begin{DoxyEnumerate}
+\item Code listing of C function for 4-\/bit LFSR generator. Always use syntax highlighting and meaningful comments\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{uint8\_t rand4\_c(uint8\_t value)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    \textcolor{comment}{// WRITE YOUR CODE HERE}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md_report_old_autotoc_md26}{}\doxysubsection{Sum of the products (\+So\+P)}\label{md_report_old_autotoc_md26}
+
+\begin{DoxyEnumerate}
+\item Code listing of assembly function to calculate the sum of the products. Always use syntax highlighting and meaningful comments\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{;**********************************************************************}
+\DoxyCodeLine{;* Function: sop\_asm}
+\DoxyCodeLine{;* Purpose:  Sum of the product of two integer vectors with the same length.}
+\DoxyCodeLine{;* Note:     Consider 8-\/bit values/operations only.}
+\DoxyCodeLine{;* Input:    r24 -\/ Vector a}
+\DoxyCodeLine{;* Input:    r22 -\/ Vector b}
+\DoxyCodeLine{;* Input:    r20 -\/ Number of vector elements}
+\DoxyCodeLine{;* Return:   r24 -\/ Sum of the product value}
+\DoxyCodeLine{;**********************************************************************/}
+\DoxyCodeLine{.global sop\_asm}
+\DoxyCodeLine{sop\_asm:}
+\DoxyCodeLine{    ; WRITE YOUR CODE HERE}
+\DoxyCodeLine{}
+\DoxyCodeLine{    ret                     ; Return from subroutine}
+
+\end{DoxyCode}
+\hypertarget{md_report_old_autotoc_md27}{}\doxysubsection{Sorting function}\label{md_report_old_autotoc_md27}
+
+\begin{DoxyEnumerate}
+\item Flowchart figure for function {\ttfamily uint8\+\_\+t$\ast$ sort\+\_\+values(uint8\+\_\+t$\ast$ data, uint8\+\_\+t length=3)} which sorts three integer values from input array in descending order. The image can be drawn on a computer or by hand. Use clear descriptions of the individual steps of the algorithms.
+
+!\mbox{[}your figure\mbox{]}() 
+\end{DoxyEnumerate}
